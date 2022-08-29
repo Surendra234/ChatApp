@@ -13,10 +13,11 @@
 		846CDABB28B647B8009C882E /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846CDABA28B647B8009C882E /* UserCell.swift */; };
 		846CDABD28B65C8E009C882E /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846CDABC28B65C8E009C882E /* ActivityIndicator.swift */; };
 		846CDAC528B75AFD009C882E /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846CDAC428B75AFD009C882E /* ChatLogController.swift */; };
+		846CF3D728B9CBA500317D20 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846CF3D628B9CBA500317D20 /* MessageService.swift */; };
+		846CF3D928BA676800317D20 /* MessageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846CF3D828BA676800317D20 /* MessageTableViewController.swift */; };
 		8491D66C28B7AA4300A1A48A /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8491D66B28B7AA4300A1A48A /* Message.swift */; };
 		849ACD7728B20C6A00E09013 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849ACD7628B20C6A00E09013 /* UserService.swift */; };
 		849ACD7928B2180800E09013 /* String+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849ACD7828B2180800E09013 /* String+Extention.swift */; };
-		849ACD7B28B21D9300E09013 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849ACD7A28B21D9300E09013 /* MessagesController.swift */; };
 		84A253BC28B0D6E200DAB07B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A253BB28B0D6E200DAB07B /* AppDelegate.swift */; };
 		84A253BE28B0D6E200DAB07B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A253BD28B0D6E200DAB07B /* SceneDelegate.swift */; };
 		84A253C328B0D6E200DAB07B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A253C128B0D6E200DAB07B /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 		84A253DD28B0D6E500DAB07B /* ChatAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A253DC28B0D6E500DAB07B /* ChatAppUITests.swift */; };
 		84A253DF28B0D6E500DAB07B /* ChatAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A253DE28B0D6E500DAB07B /* ChatAppUITestsLaunchTests.swift */; };
 		84A253F028B0F06600DAB07B /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A253EF28B0F06600DAB07B /* SignUpViewController.swift */; };
+		84D1FFA428BB5C51008304A2 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D1FFA328BB5C51008304A2 /* ChatMessageCell.swift */; };
 		84F7A26A28B153B200AE56B4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7A26928B153B200AE56B4 /* LoginViewController.swift */; };
 		84F7A26C28B15A8D00AE56B4 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7A26B28B15A8D00AE56B4 /* ForgotPasswordViewController.swift */; };
 		84F7A27128B15E1100AE56B4 /* SignUpViewController+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7A27028B15E1100AE56B4 /* SignUpViewController+Extention.swift */; };
@@ -66,10 +68,11 @@
 		846CDABA28B647B8009C882E /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		846CDABC28B65C8E009C882E /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		846CDAC428B75AFD009C882E /* ChatLogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
+		846CF3D628B9CBA500317D20 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
+		846CF3D828BA676800317D20 /* MessageTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewController.swift; sourceTree = "<group>"; };
 		8491D66B28B7AA4300A1A48A /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		849ACD7628B20C6A00E09013 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		849ACD7828B2180800E09013 /* String+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extention.swift"; sourceTree = "<group>"; };
-		849ACD7A28B21D9300E09013 /* MessagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesController.swift; sourceTree = "<group>"; };
 		84A253B828B0D6E200DAB07B /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A253BB28B0D6E200DAB07B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84A253BD28B0D6E200DAB07B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +86,7 @@
 		84A253DC28B0D6E500DAB07B /* ChatAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAppUITests.swift; sourceTree = "<group>"; };
 		84A253DE28B0D6E500DAB07B /* ChatAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		84A253EF28B0F06600DAB07B /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		84D1FFA328BB5C51008304A2 /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		84F7A26928B153B200AE56B4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		84F7A26B28B15A8D00AE56B4 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		84F7A27028B15E1100AE56B4 /* SignUpViewController+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignUpViewController+Extention.swift"; sourceTree = "<group>"; };
@@ -134,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				846CDABA28B647B8009C882E /* UserCell.swift */,
+				84D1FFA328BB5C51008304A2 /* ChatMessageCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -152,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				849ACD7628B20C6A00E09013 /* UserService.swift */,
+				846CF3D628B9CBA500317D20 /* MessageService.swift */,
 			);
 			path = NetworkManager;
 			sourceTree = "<group>";
@@ -235,7 +241,7 @@
 		84A253ED28B0D73600DAB07B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				849ACD7A28B21D9300E09013 /* MessagesController.swift */,
+				846CF3D828BA676800317D20 /* MessageTableViewController.swift */,
 				846CDAB728B62413009C882E /* NewMessageController.swift */,
 				846CDAC428B75AFD009C882E /* ChatLogController.swift */,
 			);
@@ -535,10 +541,12 @@
 				846CDAB628B608B8009C882E /* User.swift in Sources */,
 				84A253F028B0F06600DAB07B /* SignUpViewController.swift in Sources */,
 				846CDABB28B647B8009C882E /* UserCell.swift in Sources */,
+				846CF3D928BA676800317D20 /* MessageTableViewController.swift in Sources */,
 				846CDAB028B4DCB6009C882E /* Constant.swift in Sources */,
 				84A253BE28B0D6E200DAB07B /* SceneDelegate.swift in Sources */,
-				849ACD7B28B21D9300E09013 /* MessagesController.swift in Sources */,
+				846CF3D728B9CBA500317D20 /* MessageService.swift in Sources */,
 				846CDAB828B62413009C882E /* NewMessageController.swift in Sources */,
+				84D1FFA428BB5C51008304A2 /* ChatMessageCell.swift in Sources */,
 				84F7A26A28B153B200AE56B4 /* LoginViewController.swift in Sources */,
 				846CDABD28B65C8E009C882E /* ActivityIndicator.swift in Sources */,
 			);

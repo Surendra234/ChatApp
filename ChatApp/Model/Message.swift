@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import Firebase
 
-class Message: NSObject {
+class Message {
     
     var fromId: String?
     var text: String?
@@ -21,5 +22,9 @@ class Message: NSObject {
         self.text = dictionary["text"] as? String
         self.toId = dictionary["toId"] as? String
         self.timeStamp = dictionary["timeStamp"] as? NSNumber
+    }
+    
+    func chatPartnerId() -> String? {
+        return fromId == Auth.auth().currentUser?.uid ? toId : fromId
     }
 }

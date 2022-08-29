@@ -19,7 +19,6 @@ class LoginViewController: UIViewController {
 
     }
     
-    
     @IBAction func loginButtonDidTapped(_ sender: UIButton) {
         
         guard let email = emailTextField.text else { return }
@@ -35,7 +34,8 @@ class LoginViewController: UIViewController {
             
             else {
                 
-                let vc = MessagesController()
+                //let vc = MessagesController()
+                let vc = MessageTableViewController()
                 let scene = UIApplication.shared.connectedScenes.first
                 
                 if let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) {

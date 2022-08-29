@@ -9,7 +9,7 @@ import UIKit
 
 fileprivate var aView: UIView?
 
-extension UIViewController {
+extension UITableViewController {
     
     func showSpiner() {
         

@@ -14,14 +14,11 @@ class NewMessageController: UITableViewController {
     
     
     // Mark : Properties
-    
+    var timer: Timer?
     var users = [User]()
-    
-    var messageController: MessagesController?
-    
+    var messageController: MessageTableViewController?
     
     // Mark : init
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,41 +30,40 @@ class NewMessageController: UITableViewController {
         fetchUser()
     }
     
-    
     // Mark : Handler
-    
     @objc func handleCancle() {
         navigationController?.popViewController(animated: true)
-        //dismiss(animated: true)
     }
     
+    @objc func handleReloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
     
     func fetchUser() {
         
         Database.database().reference().child("users").observe(.childAdded, with: { snapshot in
-            
+        
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 
                 let user = User(dictionary: dictionary)
-    
                 user.id = snapshot.key
                 self.users.append(user)
-        
-                DispatchQueue.main.async { self.tableView.reloadData()}
+                
+                self.timer?.invalidate()
+                self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
             }
         }, withCancel: nil)
     }
-    
+
     
     // Mark : TableView methods
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return users.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         return 80
     }
     
@@ -89,7 +85,6 @@ class NewMessageController: UITableViewController {
         return cell
     }
 
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = self.users[indexPath.row]
         self.messageController?.showChatControllerForUser(user: user)

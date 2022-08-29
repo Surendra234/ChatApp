@@ -9,29 +9,10 @@ import UIKit
 import Firebase
 
 class UserCell: UITableViewCell {
-
     
     var message: Message? {
         didSet {
-            if let toId = message?.toId {
-                let ref = Database.database().reference().child("users").child(toId)
-                
-                ref.observeSingleEvent(of: .value, with: { snapshot in
-                    
-                    if let dictionary = snapshot.value as? [String: AnyObject] {
-                        
-                        self.textLabel?.text = dictionary["username"] as? String
-                        
-                        if let imageUrl = dictionary["imageUrl"] as? String {
-                            
-                            guard let url = URL(string: imageUrl) else { return}
-                            guard let data = try? Data(contentsOf: url) else { return}
-                            
-                            self.profileImageView.image = UIImage(data: data)}
-                    }
-                    
-                }, withCancel: nil)
-            }
+            setupNameAndProfileImage()
             detailTextLabel?.text = message?.text
             
             if let second = message?.timeStamp?.doubleValue {
@@ -45,7 +26,27 @@ class UserCell: UITableViewCell {
         }
     }
     
-    
+    func setupNameAndProfileImage() {
+
+        if let id = message?.chatPartnerId() {
+            let ref = Database.database().reference().child("users").child(id)
+
+            ref.observeSingleEvent(of: .value, with: { snapshot in
+
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+
+                    self.textLabel?.text = dictionary["username"] as? String
+
+                    if let imageUrl = dictionary["imageUrl"] as? String {
+                        guard let url = URL(string: imageUrl) else { return}
+                        guard let data = try? Data(contentsOf: url) else { return}
+                        self.profileImageView.image = UIImage(data: data)
+                    }
+                }
+
+            }, withCancel: nil)
+        }
+    }
     
     let profileImageView: UIImageView = {
         
@@ -58,9 +59,9 @@ class UserCell: UITableViewCell {
     }()
     
     let timeLabe: UILabel = {
-       
+        
         let label = UILabel()
-        label.text = "HH:MM"
+        //label.text = "HH:MM"
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -81,15 +82,17 @@ class UserCell: UITableViewCell {
         addSubview(profileImageView)
         addSubview(timeLabe)
         
-        profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
+        profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
         profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 48).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 48).isActive = true
         
-        timeLabe.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        timeLabe.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 15).isActive = true
         timeLabe.topAnchor.constraint(equalTo: self.topAnchor, constant: 18).isActive = true
         timeLabe.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        timeLabe.heightAnchor.constraint(equalTo: textLabel!.heightAnchor).isActive = true
+        
+        guard let textLable = textLabel else { return}
+        timeLabe.heightAnchor.constraint(equalTo: textLable.heightAnchor).isActive = true
     }
     
     required init?(coder: NSCoder) {

@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         else {
 
-            let chatVC = UINavigationController.init(rootViewController: MessagesController())
+            let chatVC = UINavigationController.init(rootViewController: MessageTableViewController())
             window.rootViewController = chatVC
         }
         

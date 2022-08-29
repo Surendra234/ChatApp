@@ -7,7 +7,7 @@
 
 import UIKit
 
-class User: NSObject {
+class User {
     
     var id: String?
     var username: String?
