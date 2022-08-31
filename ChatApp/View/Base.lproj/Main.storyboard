@@ -160,22 +160,8 @@
                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pWk-te-69a">
-                                <rect key="frame" x="20" y="792" width="374" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="nLO-c5-367"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Forgot Password">
-                                    <fontDescription key="titleFontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <segue destination="bYd-gH-b03" kind="show" id="weG-Ha-D5f"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S1q-H4-J9f">
-                                <rect key="frame" x="20" y="319.5" width="374" height="50"/>
+                                <rect key="frame" x="20" y="349.5" width="374" height="50"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Eb1-Np-Fhu"/>
@@ -195,7 +181,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="UzZ-Op-Qyc">
-                                <rect key="frame" x="20" y="409.5" width="374" height="50"/>
+                                <rect key="frame" x="20" y="439.5" width="374" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="cNB-gj-87q"/>
                                 </constraints>
@@ -217,6 +203,20 @@
                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pWk-te-69a">
+                                <rect key="frame" x="247.5" y="289.5" width="146.5" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="nLO-c5-367"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Forgot Password">
+                                    <fontDescription key="titleFontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
+                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="bYd-gH-b03" kind="show" id="weG-Ha-D5f"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="pLj-w3-jRG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -225,20 +225,20 @@
                             <constraint firstItem="DfH-Kb-gpr" firstAttribute="top" secondItem="8Zd-Ne-9se" secondAttribute="bottom" constant="40" id="2oa-tS-M3L"/>
                             <constraint firstItem="S1q-H4-J9f" firstAttribute="leading" secondItem="pLj-w3-jRG" secondAttribute="leading" constant="20" id="42j-r5-ZMR"/>
                             <constraint firstItem="UzZ-Op-Qyc" firstAttribute="leading" secondItem="pLj-w3-jRG" secondAttribute="leading" constant="20" id="8cD-5j-oTA"/>
+                            <constraint firstItem="pWk-te-69a" firstAttribute="top" secondItem="lEB-c3-pMP" secondAttribute="bottom" constant="10" id="CEw-o5-2tB"/>
+                            <constraint firstItem="pLj-w3-jRG" firstAttribute="trailing" secondItem="pWk-te-69a" secondAttribute="trailing" constant="20" id="Chy-e4-ZRF"/>
                             <constraint firstItem="pLj-w3-jRG" firstAttribute="trailing" secondItem="UzZ-Op-Qyc" secondAttribute="trailing" constant="20" id="EKq-Db-xYe"/>
-                            <constraint firstItem="S1q-H4-J9f" firstAttribute="top" secondItem="lEB-c3-pMP" secondAttribute="bottom" constant="40" id="GX1-FO-Ipq"/>
-                            <constraint firstItem="pLj-w3-jRG" firstAttribute="bottom" secondItem="pWk-te-69a" secondAttribute="bottom" constant="20" id="JwH-vc-pbq"/>
+                            <constraint firstItem="pWk-te-69a" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pLj-w3-jRG" secondAttribute="leading" symbolic="YES" id="Gei-Q1-iIj"/>
                             <constraint firstItem="8Zd-Ne-9se" firstAttribute="leading" secondItem="pLj-w3-jRG" secondAttribute="leading" constant="20" id="MuM-pt-S7A"/>
                             <constraint firstItem="lEB-c3-pMP" firstAttribute="leading" secondItem="pLj-w3-jRG" secondAttribute="leading" constant="20" id="OcH-VX-nlh"/>
-                            <constraint firstItem="pLj-w3-jRG" firstAttribute="trailing" secondItem="pWk-te-69a" secondAttribute="trailing" constant="20" id="Rg7-Uc-v05"/>
                             <constraint firstItem="pLj-w3-jRG" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="8Zd-Ne-9se" secondAttribute="trailing" symbolic="YES" id="Smn-gc-Koj"/>
-                            <constraint firstItem="pWk-te-69a" firstAttribute="leading" secondItem="pLj-w3-jRG" secondAttribute="leading" constant="20" id="Src-YC-cC4"/>
                             <constraint firstItem="8Zd-Ne-9se" firstAttribute="top" secondItem="pLj-w3-jRG" secondAttribute="top" constant="40" id="XB9-Ht-3Aa"/>
                             <constraint firstItem="pLj-w3-jRG" firstAttribute="trailing" secondItem="S1q-H4-J9f" secondAttribute="trailing" constant="20" id="a5D-3p-sua"/>
                             <constraint firstItem="lEB-c3-pMP" firstAttribute="top" secondItem="DfH-Kb-gpr" secondAttribute="bottom" constant="40" id="aWZ-jg-ROP"/>
                             <constraint firstItem="DfH-Kb-gpr" firstAttribute="leading" secondItem="pLj-w3-jRG" secondAttribute="leading" constant="20" id="dic-uN-iQC"/>
                             <constraint firstItem="pLj-w3-jRG" firstAttribute="trailing" secondItem="lEB-c3-pMP" secondAttribute="trailing" constant="20" id="fKa-tv-dji"/>
                             <constraint firstItem="pLj-w3-jRG" firstAttribute="trailing" secondItem="DfH-Kb-gpr" secondAttribute="trailing" constant="20" id="kQo-vw-hZf"/>
+                            <constraint firstItem="S1q-H4-J9f" firstAttribute="top" secondItem="pWk-te-69a" secondAttribute="bottom" constant="20" id="s3s-7I-iMe"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="GzB-vs-sMk"/>

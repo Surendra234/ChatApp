@@ -24,11 +24,13 @@ class MessageTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.backButtonTitle = "back"
+        checkIfUserIsLoggedIn()
         setupNavBarItem()
-        fetchUserAndSetupNavBarTitle()
         tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
     }
     
+
     func setupNavBarItem() {
         
         self.navigationController?.navigationBar.backgroundColor = .secondarySystemBackground
@@ -47,33 +49,25 @@ class MessageTableViewController: UITableViewController {
         tableView.reloadData()
         observeUserMessages()
         
-        let button = UIButton(type: .system)
-        button.setTitle(user.username, for: .normal)
-        button.titleLabel?.font = UIFont(name: "Avenir Next", size: 18)
-        button.tintColor = .black
-        
-        self.navigationItem.titleView = button
+        self.navigationItem.titleView?.tintColor = .black
+        self.navigationItem.title = user.username
     }
     
     func showChatControllerForUser(user: User) {
         let chatLogVC = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
         chatLogVC.user = user
-        self.navigationController?.pushViewController(chatLogVC, animated: true)
+        navigationController?.pushViewController(chatLogVC, animated: true)
     }
-    
-    // Mark: Handler
-    @objc func handleReloadTable() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
+
     
     // show list of user on a new message controller
     @objc func handleNewMessage() {
         
         let newMessageController = NewMessageController()
         newMessageController.messageController = self
-        navigationController?.pushViewController(newMessageController, animated: true)
+        let nav = UINavigationController(rootViewController: newMessageController)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
     }
     
     // Set username on top
@@ -90,22 +84,44 @@ class MessageTableViewController: UITableViewController {
         }
     }
     
+    func checkIfUserIsLoggedIn() {
+        
+        if Auth.auth().currentUser?.uid == nil {
+            perform(#selector(logOutButtonDidTapped), with: nil, afterDelay: 0)
+        }
+        else {
+            fetchUserAndSetupNavBarTitle()
+        }
+    }
+    
+    
     func observeUserMessages() {
         
-        MessageService.shared.observeMessageAdded { message in
+        MessageService.shared.observeUserMessage { message in
             
             if let chatPartnerId = message.chatPartnerId() {
                 self.messagesDictionary[chatPartnerId] = message
-                self.messages = Array(self.messagesDictionary.values)
-
-                self.messages.sort { message1, message2 in
-                    return message1.timeStamp!.int32Value > message2.timeStamp!.int32Value
-                }
             }
-            self.timer?.invalidate()
-            self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+            self.attemptReloadOfTable()
         }
     }
+    
+    fileprivate func attemptReloadOfTable() {
+            self.timer?.invalidate()
+            self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+    }
+    
+    @objc func handleReloadTable() {
+        
+        self.messages = Array(self.messagesDictionary.values)
+        self.messages.sort { message1, message2 in
+            return message1.timeStamp!.int32Value > message2.timeStamp!.int32Value }
+       
+        DispatchQueue.main.async {
+            print("table view reload")
+            self.tableView.reloadData()}
+    }
+    
     
     // Mark: TableView datasource methode
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -151,12 +167,10 @@ class MessageTableViewController: UITableViewController {
             try firebaseAuth.signOut()
             let scene = UIApplication.shared.connectedScenes.first
             if let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) {
-                sd.window?.rootViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Constant.StoryboardKeys.LoginViewController)
-            }
+                sd.window?.rootViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: Constant.StoryboardKeys.LoginViewController)}
         }
         catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
     }
 }
-

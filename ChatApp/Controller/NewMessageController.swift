@@ -17,6 +17,7 @@ class NewMessageController: UITableViewController {
     var timer: Timer?
     var users = [User]()
     var messageController: MessageTableViewController?
+
     
     // Mark : init
     override func viewDidLoad() {
@@ -30,21 +31,17 @@ class NewMessageController: UITableViewController {
         fetchUser()
     }
     
+    
     // Mark : Handler
     @objc func handleCancle() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func handleReloadTable() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        //navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     func fetchUser() {
-        
+        showSpiner()
         Database.database().reference().child("users").observe(.childAdded, with: { snapshot in
-        
+
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 
                 let user = User(dictionary: dictionary)
@@ -56,7 +53,13 @@ class NewMessageController: UITableViewController {
             }
         }, withCancel: nil)
     }
-
+    
+    @objc func handleReloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.removeSpiner()
+        }
+    }
     
     // Mark : TableView methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -87,6 +90,9 @@ class NewMessageController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = self.users[indexPath.row]
-        self.messageController?.showChatControllerForUser(user: user)
+        dismiss(animated: true) {
+            print("dissmiss completed")
+            self.messageController?.showChatControllerForUser(user: user)
+        }
     }
 }

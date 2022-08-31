@@ -27,7 +27,9 @@ class UserCell: UITableViewCell {
     }
     
     func setupNameAndProfileImage() {
-
+        
+        self.profileImageView.image = UIImage(systemName: "person")
+        self.textLabel?.text = "user"
         if let id = message?.chatPartnerId() {
             let ref = Database.database().reference().child("users").child(id)
 

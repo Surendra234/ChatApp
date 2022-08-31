@@ -11,15 +11,16 @@ import UIKit
 class MessageService {
     
     static let shared = MessageService()
-    private let ref = Database.database().reference().child("user-messages")
+    private let userMessageRef = Database.database().reference().child("user-messages")
     
-    func observeMessageAdded(completion: @escaping (Message) -> (Void)) {
+    
+    // Mark : Observer Conversion Messages
+    func observeMessageAdded(user: User,completion: @escaping (Message) -> (Void)) {
         
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return
-        }
+        guard let uid = Auth.auth().currentUser?.uid,
+              let toId = user.id else { return}
        
-        ref.child(uid).observe(.childAdded, with: { (snapshot) in
+        userMessageRef.child(uid).child(toId).observe(.childAdded, with: { (snapshot) in
           
             let messageId = snapshot.key
             let messagesReference = Database.database().reference().child("messages").child(messageId)
@@ -35,10 +36,39 @@ class MessageService {
         }, withCancel: nil)
     }
     
+    
+    // Mark : Obser All Users Messages
+    func observeUserMessage(completion: @escaping (Message) -> (Void)) {
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return}
+
+        userMessageRef.child(uid).observe(.childAdded, with: { userIdSnapshot in
+
+            let userId = userIdSnapshot.key
+    
+            self.userMessageRef.child(uid).child(userId).observe(.childAdded, with: { messageIdSnapshot in
+
+                let messageId = messageIdSnapshot.key
+                let messageReference = Database.database().reference().child("messages").child(messageId)
+                
+                messageReference.observeSingleEvent(of: .value, with: { snapshot in
+          
+                    if let dictionary = snapshot.value as? [String: AnyObject] {
+                        let message = Message(dictionary: dictionary)
+                        
+                        completion(message)
+                    }
+                }, withCancel: nil)
+
+            }, withCancel: nil)
+            
+        }, withCancel: nil)
+    }
+    
     func cancelObservers() {
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-        ref.child(uid).removeAllObservers()
+        userMessageRef.child(uid).removeAllObservers()
     }
 }
