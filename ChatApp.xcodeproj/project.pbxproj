@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		845BC55528C504BD00838817 /* Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845BC55428C504BD00838817 /* Extention.swift */; };
 		846CDAB028B4DCB6009C882E /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846CDAAF28B4DCB6009C882E /* Constant.swift */; };
 		846CDAB628B608B8009C882E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846CDAB528B608B8009C882E /* User.swift */; };
 		846CDAB828B62413009C882E /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846CDAB728B62413009C882E /* NewMessageController.swift */; };
@@ -63,6 +64,7 @@
 		61104320CDBF28873098BD0D /* Pods-ChatApp-ChatAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp-ChatAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-ChatApp-ChatAppUITests/Pods-ChatApp-ChatAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		6FEE59037CFFA3FEBF166927 /* Pods-ChatApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp.debug.xcconfig"; path = "Target Support Files/Pods-ChatApp/Pods-ChatApp.debug.xcconfig"; sourceTree = "<group>"; };
 		74BEAB96302210E9C5C908AE /* Pods_ChatApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		845BC55428C504BD00838817 /* Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extention.swift; sourceTree = "<group>"; };
 		846CDAAF28B4DCB6009C882E /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		846CDAB528B608B8009C882E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		846CDAB728B62413009C882E /* NewMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
@@ -136,15 +138,6 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		846CDAB928B631C1009C882E /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				846CDABA28B647B8009C882E /* UserCell.swift */,
-				84D1FFA328BB5C51008304A2 /* ChatMessageCell.swift */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
 		8491D66A28B79C8F00A1A48A /* LoginAndSignup */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,14 +183,15 @@
 			isa = PBXGroup;
 			children = (
 				84A253EB28B0D71F00DAB07B /* SupportingFiles */,
-				846CDAAE28B4DC88009C882E /* Utility */,
-				84F7A26D28B15CC800AE56B4 /* Extention */,
 				849ACD7528B20C3500E09013 /* NetworkManager */,
 				84A253EC28B0D72E00DAB07B /* Model */,
+				84A253EE28B0D77200DAB07B /* View */,
 				84A253ED28B0D73600DAB07B /* Controller */,
 				8491D66A28B79C8F00A1A48A /* LoginAndSignup */,
-				846CDAB928B631C1009C882E /* Cell */,
-				84A253EE28B0D77200DAB07B /* View */,
+				846CDAAE28B4DC88009C882E /* Utility */,
+				84F7A26D28B15CC800AE56B4 /* Extention */,
+				84A253C128B0D6E200DAB07B /* Main.storyboard */,
+				84A253C628B0D6E500DAB07B /* LaunchScreen.storyboard */,
 				84A253C428B0D6E500DAB07B /* Assets.xcassets */,
 				84A253C928B0D6E500DAB07B /* Info.plist */,
 				84F7A27428B167FC00AE56B4 /* GoogleService-Info.plist */,
@@ -253,8 +247,8 @@
 		84A253EE28B0D77200DAB07B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				84A253C128B0D6E200DAB07B /* Main.storyboard */,
-				84A253C628B0D6E500DAB07B /* LaunchScreen.storyboard */,
+				846CDABA28B647B8009C882E /* UserCell.swift */,
+				84D1FFA328BB5C51008304A2 /* ChatMessageCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -266,6 +260,7 @@
 				84F7A27228B15E2E00AE56B4 /* LoginViewController+Extention.swift */,
 				84F7A27028B15E1100AE56B4 /* SignUpViewController+Extention.swift */,
 				846E5F9528BD2A1E003226C9 /* ChatLogController+Extention.swift */,
+				845BC55428C504BD00838817 /* Extention.swift */,
 			);
 			path = Extention;
 			sourceTree = "<group>";
@@ -546,6 +541,7 @@
 				84A253F028B0F06600DAB07B /* SignUpViewController.swift in Sources */,
 				846CDABB28B647B8009C882E /* UserCell.swift in Sources */,
 				846CF3D928BA676800317D20 /* MessageTableViewController.swift in Sources */,
+				845BC55528C504BD00838817 /* Extention.swift in Sources */,
 				846CDAB028B4DCB6009C882E /* Constant.swift in Sources */,
 				84A253BE28B0D6E200DAB07B /* SceneDelegate.swift in Sources */,
 				846CF3D728B9CBA500317D20 /* MessageService.swift in Sources */,

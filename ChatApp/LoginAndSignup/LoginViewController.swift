@@ -17,6 +17,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
     }
     
     @IBAction func loginButtonDidTapped(_ sender: UIButton) {
@@ -30,19 +31,15 @@ class LoginViewController: UIViewController {
             
             if err != nil {
                 self.showAlert(title: "Login Error", message: "User detail not found")
+                return
             }
             
-            else {
-                
-                //let vc = MessagesController()
-                let vc = MessageTableViewController()
-                let scene = UIApplication.shared.connectedScenes.first
-                
-                if let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) {
-                    
-                    let chatVC = UINavigationController.init(rootViewController: vc)
-                    sd.window!.rootViewController = chatVC
-                }
+            let vc = MessageTableViewController()
+            let scene = UIApplication.shared.connectedScenes.first
+            
+            if let sd : SceneDelegate = (scene?.delegate as? SceneDelegate) {
+                let chatVC = UINavigationController.init(rootViewController: vc)
+                sd.window!.rootViewController = chatVC
             }
         }
     }

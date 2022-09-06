@@ -10,6 +10,7 @@ target 'ChatApp' do
    pod 'Firebase/Firestore'
    pod 'Firebase/Database'
    pod 'Firebase/Storage'
+   pod 'SDWebImage', '~> 4.4.2'	 
 
   # Pods for ChatApp
 

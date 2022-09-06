@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import SDWebImage
 
 class UserCell: UITableViewCell {
     
@@ -20,7 +21,6 @@ class UserCell: UITableViewCell {
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "hh:mm a"
-                
                 timeLabe.text = dateFormatter.string(from: timeStamDate)
             }
         }
@@ -28,25 +28,13 @@ class UserCell: UITableViewCell {
     
     func setupNameAndProfileImage() {
         
-        self.profileImageView.image = UIImage(systemName: "person")
-        self.textLabel?.text = "user"
-        if let id = message?.chatPartnerId() {
-            let ref = Database.database().reference().child("users").child(id)
-
-            ref.observeSingleEvent(of: .value, with: { snapshot in
-
-                if let dictionary = snapshot.value as? [String: AnyObject] {
-
-                    self.textLabel?.text = dictionary["username"] as? String
-
-                    if let imageUrl = dictionary["imageUrl"] as? String {
-                        guard let url = URL(string: imageUrl) else { return}
-                        guard let data = try? Data(contentsOf: url) else { return}
-                        self.profileImageView.image = UIImage(data: data)
-                    }
-                }
-
-            }, withCancel: nil)
+        MessageService.shared.fetchuserConversation(withUser: message!) { dictionary in
+            
+            self.textLabel?.text = dictionary["username"] as? String
+            if let imageUrl = dictionary["imageUrl"] as? String {
+                guard let url = URL(string: imageUrl) else { return}
+                self.profileImageView.sd_setImage(with: url)
+            }
         }
     }
     
@@ -63,7 +51,6 @@ class UserCell: UITableViewCell {
     let timeLabe: UILabel = {
         
         let label = UILabel()
-        //label.text = "HH:MM"
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false

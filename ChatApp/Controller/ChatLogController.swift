@@ -10,12 +10,9 @@ import Firebase
 
 private let cellId = "cellId"
 
-class ChatLogController: UICollectionViewController, UITextFieldDelegate, UICollectionViewDelegateFlowLayout {
+class ChatLogController: UICollectionViewController, UITextFieldDelegate {
     
-    
-    // Mark : Properties
-    var containerViewBottomAnchor: NSLayoutConstraint?
-    var messages = [Message]()
+    // MARK: - Properties
     
     var user: User? {
         didSet {
@@ -24,6 +21,13 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         }
     }
     
+    var messages = [Message]()
+    
+    var startingFrame: CGRect?
+    var blackBackgroundView: UIView?
+    var startingImageView: UIImageView?
+    var containerViewBottomAnchor: NSLayoutConstraint?
+
     let sendButton: UIButton = {
         let button = UIButton(type: .system)
         
@@ -52,7 +56,8 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }()
     
 
-    // Mark : Init
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,17 +71,8 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         setupKeyboardObservers()
     }
     
-    // Mark : Keyboard
-    func setupKeyboardObservers() {
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
+    // MARK: - Selector
     
-    // Mark : Handler
     @objc func handleKeyboardDidShow() {
         if messages.count > 0 {
             let indexPath = IndexPath(item: messages.count - 1, section: 0)
@@ -84,9 +80,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         }
     }
     
-    
     @objc func handleKeyboardWillShow(notification: Notification) {
-        
         let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
         
         let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
@@ -99,7 +93,6 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
     
     @objc func handleKeyboardWillHide(notification: Notification) {
-        
         let keyboardDuration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
         containerViewBottomAnchor?.constant = 0
@@ -109,18 +102,60 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         }, completion: nil)
     }
     
-    private func observerMessage() {
+    @objc func handleUploadTap() {
         
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .savedPhotosAlbum
+        imagePickerController.allowsEditing = true
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @objc func handleSend() {
+        
+        guard let text = inputTextField.text else { return}
+        let properties = ["text": text]
+        
+        sendMessageWithProperties(properties as [String: AnyObject])
+    }
+    
+    @objc func handleZoomOut(_ tapGesture: UITapGestureRecognizer) {
+        
+        if let zoomOutImageView = tapGesture.view {
+            zoomOutImageView.layer.cornerRadius = 16
+            zoomOutImageView.clipsToBounds = true
+            
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {
+                
+                zoomOutImageView.frame = self.startingFrame!
+                self.blackBackgroundView?.alpha = 0
+                
+            } completion: { completed in
+                zoomOutImageView.removeFromSuperview()
+                self.startingImageView?.isHidden = false
+            }
+        }
+    }
+    
+    // MARK: - Helpers
+    
+    func setupKeyboardObservers() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func observerMessage() {
         guard let user = user else { return}
         MessageService.shared.observeMessageAdded(user: user) { message in
             
             self.messages.append(message)
-            
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-                let indexPath = IndexPath(item: self.messages.count - 1, section: 0)
-                self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
-            }
+            self.collectionView.reloadData()
+            let indexPath = IndexPath(item: self.messages.count - 1, section: 0)
+            self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
         }
     }
     
@@ -201,11 +236,9 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         }
         
         if let messageImageUrl = message.imageUrl {
-            
+        
             guard let url = URL(string: messageImageUrl) else { return}
-            guard let data = try? Data(contentsOf: url) else { return}
-            
-            cell.messageImageView.image = UIImage(data: data)
+            cell.messageImageView.sd_setImage(with: url)
             cell.messageImageView.isHidden = false
             cell.bubbleView.backgroundColor = .clear
         }
@@ -218,50 +251,78 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         handleSend()
         return true
     }
-    
-    // Mark : ImageView Gasture
-    @objc func handleUploadTap() {
+
+    func performZoomInForStartingImageView(_ startingImageView: UIImageView) {
         
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = .savedPhotosAlbum
-        imagePickerController.allowsEditing = true
-        imagePickerController.delegate = self
-        present(imagePickerController, animated: true, completion: nil)
+        self.startingImageView = startingImageView
+        self.startingImageView?.isHidden = true
+        startingFrame = startingImageView.superview?.convert(startingImageView.frame, to: nil)
+        
+        let zoomingImageView = UIImageView(frame: startingFrame!)
+        zoomingImageView.backgroundColor = .red
+        zoomingImageView.image = startingImageView.image
+        zoomingImageView.isUserInteractionEnabled = true
+        zoomingImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleZoomOut)))
+                
+        if let keyWindow = UIApplication.shared.connectedScenes
+            .filter({$0.activationState == .foregroundActive})
+            .compactMap({$0 as? UIWindowScene})
+            .first?.windows
+            .filter({$0.isKeyWindow}).first {
+            
+            blackBackgroundView = UIView(frame: keyWindow.frame)
+            blackBackgroundView?.backgroundColor = .black
+            blackBackgroundView?.alpha = 0
+            keyWindow.addSubview(blackBackgroundView!)
+            
+            keyWindow.addSubview(zoomingImageView)
+            
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                
+                self.blackBackgroundView?.alpha = 1
+                let height = self.startingFrame!.height / self.startingFrame!.width * keyWindow.frame.width
+                zoomingImageView.frame = CGRect(x: 0, y: 0, width: keyWindow.frame.width, height: height)
+                zoomingImageView.center = keyWindow.center
+                
+            }, completion: nil)
+        }
     }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension ChatLogController {
     
-    @objc func handleSend() {
-        
-        guard let text = inputTextField.text else { return}
-        let properties = ["text": text]
-        
-        sendMessageWithProperties(properties as [String: AnyObject])
-    }
-    
-    // Mark : CollectionView DataSource Methods
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
-    
-    
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChatMessageCell
         
         let message = messages[indexPath.item]
         cell.textView.text = message.text
-        
-        // Steup bubble chat message
+        cell.chatLogController = self
+
         setupCell(cell: cell, message: message)
         if let text = message.text {
             cell.bubbleViewWidthAnchor?.constant = estimateFrameForText(text).width + 32
+            cell.textView.isHidden = false
         }
         else if message.imageUrl != nil {
             cell.bubbleViewWidthAnchor?.constant = 200
+            cell.textView.isHidden = true
+            cell.messageImageView.sd_setShowActivityIndicatorView(false)
         }
         return cell
     }
-    
+}
 
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension ChatLogController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         var height: CGFloat = 80
@@ -278,6 +339,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate
 
 extension ChatLogController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -293,44 +355,14 @@ extension ChatLogController: UIImagePickerControllerDelegate, UINavigationContro
             selectedImageFromPicker = editedImage
         }
         
-        if let orignalImage = info[.originalImage] as? UIImage {
-            selectedImageFromPicker = orignalImage
-        }
-        
         if let selectedImage = selectedImageFromPicker {
-            // todo..
-            uploadToFirebaseStorageUsingImage(selectedImage)
+            MessageService.shared.imageUploder(image: selectedImage) { imageUrl in
+                self.sendMessageWithImageUrl(imageUrl, image: selectedImage)
+            }
         }
         picker.dismiss(animated: true, completion: nil)
     }
-    
-    fileprivate func uploadToFirebaseStorageUsingImage(_ image: UIImage) {
-    
-        let imageName = NSUUID().uuidString
-        let ref = Storage.storage().reference().child("message_images").child(imageName)
-        
-        if let uploadData = image.jpegData(compressionQuality: 0.8) {
-            
-            ref.putData(uploadData, metadata: nil) { metadata, error in
-                
-                if error != nil {
-                    print(error?.localizedDescription as Any)
-                    return
-                }
-                
-                ref.downloadURL { url, err in
-                    
-                    if let err = err {
-                        print(err.localizedDescription)
-                        return
-                    }
-                    guard let imageUrl = url?.absoluteString else { return}
-                    self.sendMessageWithImageUrl(imageUrl, image: image)
-                }
-            }
-        }
-    }
-    
+
     fileprivate func sendMessageWithImageUrl(_ imageUrl: String, image: UIImage) {
         
         let properties: [String: AnyObject] = ["imageUrl": imageUrl as AnyObject, "imageWidth": image.size.width as AnyObject, "imageHeight": image.size.height as AnyObject]
@@ -339,18 +371,18 @@ extension ChatLogController: UIImagePickerControllerDelegate, UINavigationContro
     }
     
     fileprivate func sendMessageWithProperties(_ properties: [String: AnyObject]) {
-        
+
         let ref = Database.database().reference().child("messages")
         let childRef = ref.childByAutoId()
-        
+
         let toId = user!.id!
         let fromId = Auth.auth().currentUser!.uid
         let timeStamp = Int(Date().timeIntervalSince1970)
-        
+
         var values: [String: AnyObject] = ["toId": toId as AnyObject, "fromId": fromId as AnyObject, "timeStamp": timeStamp as AnyObject]
-        
+
         properties.forEach({values[$0] = $1})
-        
+
         childRef.updateChildValues(values) { err, ref in
             if err != nil {
                 print("error")
@@ -358,13 +390,13 @@ extension ChatLogController: UIImagePickerControllerDelegate, UINavigationContro
             }
             self.inputTextField.text = nil
             guard let messageId = childRef.key else { return}
-            
+
             let userMessageRef = Database.database().reference().child("user-messages").child(fromId).child(toId).child(messageId)
-            
+
             userMessageRef.setValue(1)
-            
+
             let recipientUserMessageRef = Database.database().reference().child("user-messages").child(toId).child(fromId).child(messageId)
-            
+
             recipientUserMessageRef.setValue(1)
         }
     }

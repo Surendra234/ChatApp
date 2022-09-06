@@ -49,9 +49,7 @@ struct UserService {
                 guard let uid = result?.user.uid else { return}
                 
                 let ref = Database.database().reference()
-                
                 let userRef = ref.child("users").child(uid)
-                
                 let value = ["username": username, "email": email, "imageUrl": imageUrl]
             
                 userRef.updateChildValues(value) { err, ref in
